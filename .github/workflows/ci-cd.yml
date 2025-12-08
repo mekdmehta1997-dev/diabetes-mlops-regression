@@ -50,6 +50,7 @@ jobs:
     env:
       IMAGE_NAME: ghcr.io/level3/diabetes-mlops-app:latest
 
+
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -79,6 +80,7 @@ jobs:
           registry: ghcr.io
           username: level3
           password: ${{ secrets.GHCR_TOKEN }}
+
 
       - name: Push Docker image
         run: |
