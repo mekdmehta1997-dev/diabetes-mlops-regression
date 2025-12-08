@@ -44,6 +44,7 @@ jobs:
   build_and_push:
     needs: train_and_test
     runs-on: ubuntu-latest
+    # run only on main when train_and_test succeeded
     if: ${{ needs.train_and_test.result == 'success' && github.ref == 'refs/heads/main' }}
 
     env:
