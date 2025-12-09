@@ -1,3 +1,4 @@
+# app.py
 from flask import Flask, request, jsonify
 import os
 import joblib
@@ -92,14 +93,13 @@ def predict():
     with PRED_LATENCY.time():
         pred = float(model.predict(arr)[0])
 
-    # If true_value is provided, track absolute error
+    # Optional: track error if true_value provided
     if true_value is not None:
         try:
             tv = float(true_value)
             abs_err = abs(pred - tv)
             PRED_ABS_ERROR.observe(abs_err)
         except Exception:
-            # ignore if true_value is not numeric
             pass
 
     return jsonify({"prediction": pred})
