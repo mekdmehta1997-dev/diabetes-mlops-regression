@@ -1,3 +1,4 @@
+# train.py
 import os
 import json
 
@@ -15,10 +16,6 @@ EXPERIMENT_NAME = "diabetes_ridge_multimodel"
 
 
 def train_candidates():
-    """
-    Train multiple Ridge regression models with different alphas,
-    log each run to MLflow, and return the best model info.
-    """
     data = load_diabetes()
     X = data.data
     y = data.target
@@ -42,7 +39,6 @@ def train_candidates():
             preds = model.predict(X_val)
             r2 = r2_score(y_val, preds)
 
-            # Log to MLflow
             mlflow.log_param("alpha", alpha)
             mlflow.log_param("model_type", "Ridge")
             mlflow.log_metric("val_r2", float(r2))
@@ -59,22 +55,17 @@ def train_candidates():
 
 
 def train_and_save_best():
-    """
-    Train multiple candidates, pick best, and save to artifacts/best_model.pkl.
-    Also save metrics to artifacts/metrics.json.
-    """
     os.makedirs("artifacts", exist_ok=True)
 
     best_model, best_r2, best_params = train_candidates()
-
     if best_model is None:
         raise RuntimeError("No best model found!")
 
-    # Save best model
+    # save best model
     model_path = os.path.join("artifacts", "best_model.pkl")
     joblib.dump(best_model, model_path)
 
-    # Save metrics
+    # save metrics
     metrics = {
         "best_val_r2": float(best_r2),
         "best_params": best_params,
