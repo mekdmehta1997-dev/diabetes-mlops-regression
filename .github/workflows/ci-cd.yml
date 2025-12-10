@@ -98,7 +98,7 @@ jobs:
         with:
           name: docker-info
           path: image.txt
-                - name: Save Docker image to tar
+      - name: Save Docker image to tar
         run: |
           docker save $IMAGE_NAME -o diabetes-mlops-app.tar
 
