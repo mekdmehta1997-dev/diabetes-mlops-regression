@@ -85,10 +85,10 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Push Docker image
-        run: |
-          echo "Pushing image: $IMAGE_NAME"
-          docker push $IMAGE_NAME
+      #- name: Push Docker image
+       # run: |
+        #  echo "Pushing image: $IMAGE_NAME"
+         # docker push $IMAGE_NAME
 
       - name: Upload image info
         run: echo "image=$IMAGE_NAME" > image.txt
@@ -98,3 +98,13 @@ jobs:
         with:
           name: docker-info
           path: image.txt
+                - name: Save Docker image to tar
+        run: |
+          docker save $IMAGE_NAME -o diabetes-mlops-app.tar
+
+      - name: Upload image tar as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: diabetes-mlops-app-tar
+          path: diabetes-mlops-app.tar
+
